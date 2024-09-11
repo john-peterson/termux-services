@@ -3,7 +3,7 @@
 show_help(){
 
     printf 'Usage:
-    sv-disable <service-name>
+    sv-disable <service-names>
 
     Disabling a service will make it not autostart
 '
@@ -16,5 +16,8 @@ if [ -u "$SVDIR" ];then
     >&2 echo "Error: SVDIR not set"
     exit 1
 fi
-touch "$SVDIR/$1/down"
-sv down $1
+for s in "$@"; do
+    echo "disable $s"
+    touch "$SVDIR/$s/down"
+    sv down $s
+done

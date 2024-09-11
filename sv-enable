@@ -3,7 +3,7 @@
 show_help(){
 
     printf 'Usage:
-    sv-enable <service-name>
+    sv-enable <service-names>
 
     Enabling a service will make it autostart
 '
@@ -16,5 +16,8 @@ if [ -u "$SVDIR" ];then
     >&2 echo "Error: SVDIR not set"
     exit 1
 fi
-rm -f "$SVDIR/$1/down"
-sv up $1
+for s in "$@"; do
+    echo "enable $s"
+    rm -f "$SVDIR/$s/down"
+    sv up $s
+done
